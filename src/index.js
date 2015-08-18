@@ -2,7 +2,7 @@ const { parseRawCommit } = require('conventional-changelog/lib/git')
 
 module.exports = function (pluginConfig, {commit}, cb) {
   if (commit.message.indexOf('[release skip]') > -1 ||
-      commit.message.indexOf('[skip release]') > -1 ){
+      commit.message.indexOf('[skip release]') > -1) {
     return cb(null, null)
   }
 
