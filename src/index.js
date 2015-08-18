@@ -1,26 +1,12 @@
 const { parseRawCommit } = require('conventional-changelog/lib/git')
 
-module.exports = function (pluginConfig, {commits}, cb) {
-  let type = null
+module.exports = function (pluginConfig, {commit}, cb) {
+  commit = parseRawCommit(`${commit.hash}\n${commit.message}`)
 
-  commits
+  if (!commit)                return cb(null, null)
+  if (commit.breaks.length)   return cb(null, 'major')
+  if (commit.type === 'feat') return cb(null, 'minor')
+  if (commit.type === 'fix')  return cb(null, 'patch')
 
-  .map((commit) => parseRawCommit(`${commit.hash}\n${commit.message}`))
-
-  .filter((commit) => !!commit)
-
-  .every((commit) => {
-    if (commit.breaks.length) {
-      type = 'major'
-      return false
-    }
-
-    if (commit.type === 'feat') type = 'minor'
-
-    if (!type && commit.type === 'fix') type = 'patch'
-
-    return true
-  })
-
-  cb(null, type)
+  cb(null, null)
 }

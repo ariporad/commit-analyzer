@@ -7,10 +7,10 @@ test('derive version number from commits', (t) => {
     tt.plan(2)
 
     analyzer({}, {
-      commits: [{
-        hash: 'asdf',
+      commit: {
+        hash: '1234',
         message: 'chore: build script'
-      }]
+      }
     }, (err, type) => {
       tt.error(err)
       tt.is(type, null)
@@ -21,13 +21,10 @@ test('derive version number from commits', (t) => {
     tt.plan(2)
 
     analyzer({}, {
-      commits: [{
-        hash: 'asdf',
-        message: 'fix: nasty bug'
-      }, {
+      commit: {
         hash: '1234',
         message: 'fix(scope): even nastier bug'
-      }]
+      }
     }, (err, type) => {
       tt.error(err)
       tt.is(type, 'patch')
@@ -38,13 +35,10 @@ test('derive version number from commits', (t) => {
     tt.plan(2)
 
     analyzer({}, {
-      commits: [{
-        hash: 'asdf',
-        message: 'fix: nasty bug'
-      }, {
+      commit: {
         hash: '1234',
         message: 'feat(scope): cool feature'
-      }]
+      }
     }, (err, type) => {
       tt.error(err)
       tt.is(type, 'minor')
@@ -55,16 +49,10 @@ test('derive version number from commits', (t) => {
     tt.plan(2)
 
     analyzer({}, {
-      commits: [{
-        hash: 'qwer',
-        message: 'feat(something): even cooler feature\nBREAKING CHANGE: everything so broken'
-      }, {
+      commit: {
         hash: '1234',
-        message: 'feat(scope): cool feature'
-      }, {
-        hash: 'asdf',
-        message: 'fix: nasty bug'
-      }]
+        message: 'feat(something): even cooler feature\nBREAKING CHANGE: everything so broken'
+      }
     }, (err, type) => {
       tt.error(err)
       tt.is(type, 'major')
