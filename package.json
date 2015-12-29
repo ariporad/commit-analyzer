@@ -14,7 +14,7 @@
     }
   },
   "dependencies": {
-    "conventional-changelog": "0.0.17"
+    "conventional-commits-parser": "^0.1.0"
   },
   "devDependencies": {
     "babel": "^5.5.8",

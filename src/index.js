@@ -1,7 +1,7 @@
-const { parseRawCommit } = require('conventional-changelog/lib/git')
+const { sync as parseCommit } = require('conventional-commits-parser')
 
 module.exports = function (pluginConfig, {commit}, cb) {
-  commit = parseRawCommit(`${commit.hash}\n${commit.message}`)
+  commit = parseCommit(`${commit.hash}\n${commit.message}`)
 
   if (!commit) return cb(null, null)
   if (commit.breaks.length) return cb(null, 'major')
